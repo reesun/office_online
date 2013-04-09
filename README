@@ -1,0 +1,12 @@
+This is integration from version 0.3 of psview and docvert 
+
+psview, the Online viewer for PDF, PostScript is open source software, released under the GPL.
+Converts Word Processor office files (e.g. .DOC files) to OpenDocument, DocBook, and structured HTML.
+
+The INSTALL file contains installation instructions.
+
+Known problems:
+- Creating the MySQL tables may balk because of 'Position' being a reserved word in newer versions of MySQL. Will fix in later releases.
+
+author:
+Alexander Huang reesun.huang@gmail.com
