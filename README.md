@@ -1,10 +1,10 @@
-Docvert 5.1
+Office-online
 =============
 
-Converts Word Processor office files (e.g. .DOC files) to OpenDocument, DocBook, and structured HTML.
+Converts Word¡¢Excel and PDF to structured HTML.
 
 
-Web Service
+Prerequisite software:
 -----------
 
     python ./docvert-web.py [-p PORT] [-H host]
@@ -12,59 +12,34 @@ Web Service
 Command Line
 ------------
 
-    python ./docvert-cli.py
+    - Apache/PHP
+    - MySQL
+    - ImageMagick (image conversion)
+    - Ghostscript (for postscript and pdf)
+    - Wget
+    - Python2.6/2.7 
+    - sudo apt-get install libreoffice python-uno python-lxml python-imaging pdf2svg librsvg2-2
 
-    usage: docvert-cli.py [-h] [--version] --pipeline PIPELINE
-        [--response {auto,path,stdout}]
-        [--autopipeline {Break up over Heading 1.default,Nothing one long page}]
-        [--url URL]
-        [--list-pipelines]
-        [--pipelinetype {tests,auto_pipelines,pipelines}]
-        infile [infile ...]
-
-Community
+To install the viewer software, perform the following steps:
 ---------
 
-http://lists.catalyst.net.nz/mailman/listinfo/docvert
+0: Install prerequisite software.
 
-Requirements
-------------
+1: start soffice as deamon
+/usr/bin/soffice -headless -norestore -nologo -norestore -nofirststartwizard -accept="socket,port=2002;urp;" &
 
-    Python 2.6 or 2.7 (we'll support Python 3 when it supports PyUNO)
-    libreoffice
-    python-uno
-    python-lxml
-    python-imaging
-    pdf2svg
-    librsvg2-2
-    
-Quickstart Guide
-----------------
+2: Point apache at the html directory and allow php to include files from the inc directory. An example virtual host configuration can be found in the example.httpd.conf file included in this package. Restart apache.
 
-    sudo apt-get install libreoffice python-uno python-lxml python-imaging pdf2svg librsvg2-2
+3: Create a mysql database for the viewer to use, and feed it the file
+   - db/psview.sql
 
-    /usr/bin/soffice --headless --norestore --nologo --norestore --nofirststartwizard --accept="socket,port=2002;urp;"
+4: Edit database and path information in the files
+   - inc/db.inc (database connection info)
+   - inc/const.inc (path to directories and binaries)
+   - bin/render.sh (path to ghostscript and convert)
 
-then in another terminal
+5: Run the viewer (browse index.html) and fix any problems that crop up, such as missing or wrong path's and url's :-)
 
-    cd ~
-
-    git clone git://github.com/holloway/docvert.git
-
-    cd docvert
-
-    python ./docvert-web.py
-
-and browse to http://localhost:8080
-
-A note on the LibreOffice Daemon
---------------------------------
-
-If you want to convert Microsoft Office files you'll need to start a daemon:
-
-    /usr/bin/soffice -headless -norestore -nologo -norestore -nofirststartwizard -accept="socket,port=2002;urp;"
-
-This runs a single instance. If you want to run a pool of instances then try something like http://oodaemon.sourceforge.net/
 
 
 LICENCE
